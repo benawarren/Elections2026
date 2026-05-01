@@ -127,29 +127,29 @@ def format_final_data(df):
     return df[['elex_name', 'num_cands', 'tot_precincts', 'prec_reporting', 'tot_votes', 'cand_name', 'vote_pct', 'votes']]
 
 def scrape_wayne():
-    #Fetch the page content (elections)
-    url = 'https://michigan.totalvote.com/Wayne/ResultsSW.aspx?type=CIT&cid=05&map=' #election results URL
-    response = requests.get(url)
+    # #Fetch the page content (elections)
+    # url = 'https://michigan.totalvote.com/Wayne/ResultsSW.aspx?type=CIT&cid=05&map=' #election results URL
+    # response = requests.get(url)
 
-    print("Got URL")
-    soup = BeautifulSoup(response.content, 'html.parser')
+    # print("Got URL")
+    # soup = BeautifulSoup(response.content, 'html.parser')
 
-    #Locate the table and extract rows
-    tables = soup.find_all('div', class_='wrapper-inside wrapper-border') #election table div
-    print("Located table ")
+    # #Locate the table and extract rows
+    # tables = soup.find_all('div', class_='wrapper-inside wrapper-border') #election table div
+    # print("Located table ")
 
-    #loop through all Candidate tables and create a list of election dfs
-    election_dfs = []
-    for table in tables:
-        election_dfs.append(parse_elec_table(table))
+    # #loop through all Candidate tables and create a list of election dfs
+    # election_dfs = []
+    # for table in tables:
+    #     election_dfs.append(parse_elec_table(table))
 
-    print(f"Length of election_dfs object: {len(election_dfs)}")
-    all_df_wayne = pd.concat(election_dfs)
+    # print(f"Length of election_dfs object: {len(election_dfs)}")
+    # all_df_wayne = pd.concat(election_dfs)
 
     #add the proposals
 
     #fetch page content (proposals)
-    url = 'https://michigan.totalvote.com/Wayne/ResultsSW.aspx?type=PRP&cid=05&map='
+    url = 'https://michigan.totalvote.com/Wayne/ResultsSW.aspx?type=SCH&cid=05&map='
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -162,6 +162,6 @@ def scrape_wayne():
         proposal_dfs.append(parse_elec_table(table))
 
     all_proposals = pd.concat(proposal_dfs)
-    all_df_wayne = pd.concat([all_df_wayne, all_proposals])
-    final_df = format_final_data(all_df_wayne)
+    # all_df_wayne = pd.concat([all_df_wayne, all_proposals])
+    final_df = format_final_data(all_proposals)
     return final_df
